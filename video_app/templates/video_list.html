@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video List</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Uploaded Videos</h1>
+        <ul>
+            {% for video in videos %}
+                <li>
+                    <a href="{% url 'video_detail' video.id %}">{{ video.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'video_upload' %}">Upload a New Video</a>
+    </div>
+</body>
+</html>

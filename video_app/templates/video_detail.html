@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ video.title }}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ video.title }}</h1>
+        <video id="videoPlayer" controls>
+            <source src="{{ video.video_file.url }}" type="video/mp4">
+            {% if video.subtitle_file %}
+                <track kind="subtitles" src="{{ video.subtitle_file.url }}" srclang="en" label="English" default>
+            {% endif %}
+        </video>
+
+        <h2>Search Subtitles</h2>
+        <form method="GET" action="{% url 'video_detail' video.id %}">
+            <input type="text" name="term" placeholder="Search subtitles" value="{{ search_term }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <h3>Results</h3>
+        <ul>
+            {% for subtitle in subtitles %}
+                <li>
+                    <a href="javascript:void(0)" onclick="seekVideo({{ subtitle.start_time }});">
+                        {{ subtitle.text }} ({{ subtitle.start_time }} seconds)
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <script>
+            function seekVideo(seconds) {
+                var video = document.getElementById('videoPlayer');
+                video.currentTime = seconds;
+                video.play();
+            }
+        </script>
+    </div>
+</body>
+</html>
